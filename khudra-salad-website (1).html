@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خُضرة — سلطات وأطعمة صحية طازجة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rakkas&family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#153631;
+    --forest-2:#1e4a41;
+    --forest-3:#2a5f52;
+    --cream:#FBF6EC;
+    --paper:#F2EBDA;
+    --citrus:#E8963C;
+    --radish:#D1495B;
+    --ink:#182620;
+    --muted:#6c7a72;
+    --line: rgba(21,54,49,.14);
+    --radius: 22px;
+    transition: background-color .4s ease;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Tajawal', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .display{
+    font-family:'Rakkas', serif;
+    font-weight:400;
+    line-height:1.25;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:.02em; }
+  a{color:inherit; text-decoration:none;}
+  img,svg{display:block; max-width:100%;}
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 28px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--citrus);
+    font-weight:600;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{ content:''; width:16px; height:1.5px; background:var(--citrus); display:inline-block; }
+  section{position:relative;}
+
+  /* ===== focus visibility ===== */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:2.5px solid var(--citrus);
+    outline-offset:3px;
+    border-radius:6px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  }
+
+  /* ===== scroll reveal ===== */
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal.r1{ transition-delay:.05s; } .reveal.r2{ transition-delay:.15s; }
+  .reveal.r3{ transition-delay:.25s; } .reveal.r4{ transition-delay:.35s; }
+  .reveal.r5{ transition-delay:.45s; } .reveal.r6{ transition-delay:.55s; }
+
+  /* ===== header ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,246,236,.82);
+    backdrop-filter:blur(14px) saturate(1.4);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Rakkas', serif; font-size:1.5rem; color:var(--forest);
+  }
+  .logo .dot{ width:11px; height:11px; border-radius:50%; background:var(--citrus); box-shadow:0 0 0 5px rgba(232,150,60,.18); }
+  .nav-links{ display:flex; gap:34px; font-size:.95rem; font-weight:500; }
+  .nav-links a{ position:relative; color:var(--ink); opacity:.8; transition:opacity .2s; }
+  .nav-links a:hover{opacity:1;}
+  .nav-links a::after{
+    content:''; position:absolute; right:0; bottom:-6px; width:0; height:2px;
+    background:var(--citrus); transition:width .25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 24px; border-radius:100px;
+    font-weight:700; font-size:.92rem; cursor:pointer; border:none;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn-citrus{ background:var(--citrus); color:#241206; box-shadow:0 8px 20px -10px rgba(232,150,60,.7); }
+  .btn-citrus:hover{ transform:translateY(-2px); box-shadow:0 12px 26px -8px rgba(232,150,60,.65); }
+  .btn-outline{ border:1.5px solid var(--forest); color:var(--forest); background:transparent; }
+  .btn-outline:hover{ background:var(--forest); color:var(--cream); }
+  .btn-ghost-cream{ border:1.5px solid rgba(251,246,236,.5); color:var(--cream); background:transparent;}
+  .btn-ghost-cream:hover{ background:rgba(251,246,236,.12); }
+  .nav-cta{ display:flex; align-items:center; gap:14px; }
+  .burger{ display:none; }
+
+  /* ===== hero ===== */
+  .hero{
+    position:relative;
+    background: radial-gradient(120% 140% at 80% -10%, var(--forest-3) 0%, var(--forest-2) 45%, var(--forest) 100%);
+    color:var(--cream);
+    padding:96px 0 70px;
+    overflow:hidden;
+  }
+  .hero::before, .hero::after{
+    content:''; position:absolute; border-radius:50%; filter:blur(70px); opacity:.35; pointer-events:none;
+  }
+  .hero::before{ width:420px; height:420px; background:var(--citrus); top:-160px; left:-120px; }
+  .hero::after{ width:340px; height:340px; background:#7FBF8F; bottom:-140px; right:10%; opacity:.18; }
+  .hero-grid{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 5vw, 4.1rem);
+    margin:16px 0 22px;
+  }
+  .hero h1 em{ font-style:normal; background:linear-gradient(90deg, var(--citrus), #F2CB6A); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero p.lead{
+    font-size:1.12rem; color:rgba(251,246,236,.82); max-width:520px; margin-bottom:32px;
+  }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
+  .hero-stats{
+    display:flex; gap:34px; margin-top:52px; flex-wrap:wrap;
+  }
+  .hstat b{ font-family:'JetBrains Mono', monospace; font-size:1.6rem; color:var(--citrus); display:block; }
+  .hstat span{ font-size:.82rem; color:rgba(251,246,236,.68); }
+
+  /* bowl illustration */
+  .bowl-stage{ position:relative; display:flex; justify-content:center; z-index:1; }
+  .bowl-stage svg.main-bowl{ width:100%; max-width:430px; filter:drop-shadow(0 30px 40px rgba(0,0,0,.35)); }
+  .float-accent{
+    position:absolute; opacity:0; animation:floatIn .8s ease forwards, floatBob 5s ease-in-out infinite;
+  }
+  .float-accent.fa1{ top:2%; right:2%; width:64px; animation-delay:.9s, 1.7s; }
+  .float-accent.fa2{ bottom:10%; left:0%; width:52px; animation-delay:1.05s, 1.9s; }
+  .float-accent.fa3{ top:40%; left:-4%; width:44px; animation-delay:1.2s, 2.1s; }
+  .float-accent.fa4{ top:12%; left:8%; width:38px; animation-delay:1.35s, 2.3s; }
+  @keyframes floatIn{ from{opacity:0; transform:translateY(14px) scale(.85);} to{opacity:1; transform:translateY(0) scale(1);} }
+  @keyframes floatBob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-10px);} }
+  .layer{ transform-origin:center; opacity:0; animation:riseIn .7s ease forwards; }
+  .layer.l1{ animation-delay:.15s; }
+  .layer.l2{ animation-delay:.32s; }
+  .layer.l3{ animation-delay:.49s; }
+  .layer.l4{ animation-delay:.66s; }
+  .layer.l5{ animation-delay:.83s; }
+  @keyframes riseIn{
+    from{ opacity:0; transform:translateY(18px);}
+    to{ opacity:1; transform:translateY(0);}
+  }
+
+  /* ===== ingredient strip divider ===== */
+  .strip{
+    display:flex; overflow:hidden; white-space:nowrap; background:var(--forest);
+    border-top:1px solid rgba(251,246,236,.1); border-bottom:1px solid rgba(251,246,236,.1);
+  }
+  .strip-track{ display:flex; animation:scroll 32s linear infinite; }
+  .strip span{
+    padding:14px 26px; color:rgba(251,246,236,.7); font-family:'JetBrains Mono',monospace;
+    font-size:.82rem; letter-spacing:.05em; display:flex; align-items:center; gap:10px;
+  }
+  .strip span::before{ content:'✦'; color:var(--citrus); }
+  @keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+  /* ===== section headers ===== */
+  .sec-head{ max-width:640px; margin-bottom:52px; }
+  .sec-head h2{ font-size:clamp(2rem,3.4vw,2.7rem); margin-top:12px; color:var(--forest); }
+  .sec-head p{ color:var(--muted); margin-top:14px; font-size:1.02rem; }
+
+  /* ===== icons ===== */
+  .icon-circle{
+    width:54px; height:54px; border-radius:16px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    background:rgba(21,54,49,.07); margin-bottom:16px;
+  }
+  .icon-circle svg{ width:28px; height:28px; }
+  .step .icon-circle{ background:var(--paper); }
+  .dish-icon-wrap{
+    width:56px; height:56px; border-radius:50%;
+    background:rgba(251,246,236,.09); border:1px solid rgba(251,246,236,.16);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden;
+  }
+  .dish-icon-wrap svg{ width:100%; height:100%; }
+
+  /* ===== why us ===== */
+  .why{ padding:110px 0 76px; }
+  .why-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .why-card{
+    background:var(--paper); border-radius:var(--radius); padding:32px 28px;
+    border:1px solid var(--line);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .why-card:hover{ transform:translateY(-6px); box-shadow:0 20px 40px -20px rgba(21,54,49,.25); }
+  .why-num{ font-family:'JetBrains Mono',monospace; color:var(--citrus); font-weight:600; font-size:.85rem; }
+  .why-card h3{ font-size:1.3rem; margin:14px 0 10px; color:var(--forest); }
+  .why-card p{ color:var(--muted); font-size:.95rem; }
+
+  /* ===== gallery ===== */
+  .gallery{ padding:20px 0 100px; }
+  .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+  .gallery-item{ text-align:center; }
+  .gallery-frame{
+    aspect-ratio:1; border-radius:50%; overflow:hidden;
+    border:1.5px solid var(--line); background:var(--paper);
+    display:flex; align-items:center; justify-content:center; padding:18px;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .gallery-frame:hover{ transform:translateY(-5px) scale(1.03); box-shadow:0 20px 36px -18px rgba(21,54,49,.3); }
+  .gallery-frame svg{ width:100%; height:100%; }
+  .gallery-cap{ margin-top:12px; font-size:.88rem; color:var(--forest); font-weight:700; }
+  .gallery-sub{ font-size:.76rem; color:var(--muted); }
+
+  /* ===== menu ===== */
+  .menu{ padding:64px 0 104px; background:var(--forest); color:var(--cream); position:relative; }
+  .menu .sec-head h2{ color:var(--cream); }
+  .menu .sec-head p{ color:rgba(251,246,236,.68); }
+  .menu-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  .dish{
+    background:var(--forest-2); border-radius:var(--radius); padding:26px;
+    border:1px solid rgba(251,246,236,.08);
+    display:flex; flex-direction:column; gap:14px;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .dish:hover{ transform:translateY(-6px); border-color:rgba(232,150,60,.5); box-shadow:0 24px 40px -22px rgba(0,0,0,.5); }
+  .dish-top{ display:flex; align-items:flex-start; gap:14px; }
+  .dish-head{ flex:1; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .dish h3{ font-family:'Tajawal',sans-serif; font-weight:700; font-size:1.1rem; }
+  .price{ font-family:'JetBrains Mono',monospace; color:var(--citrus); font-weight:600; white-space:nowrap; }
+  .dish p{ color:rgba(251,246,236,.68); font-size:.9rem; }
+  .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:auto; }
+  .tag{
+    font-size:.72rem; padding:5px 11px; border-radius:100px;
+    border:1px solid rgba(251,246,236,.22); color:rgba(251,246,236,.75);
+  }
+  .kcal{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--citrus); }
+
+  /* ===== process ===== */
+  .process{ padding:104px 0; }
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:30px; position:relative; }
+  .step{ position:relative; padding-top:8px; }
+  .step h3{ font-size:1.35rem; margin:2px 0 8px; color:var(--forest); }
+  .step p{ color:var(--muted); font-size:.95rem; max-width:280px; }
+  .step-index{ font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--citrus); font-weight:700; margin-bottom:4px; display:block; }
+
+  /* ===== testimonials ===== */
+  .testi{ padding:20px 0 100px; }
+  .testi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .testi-card{
+    background:var(--paper); border-radius:var(--radius); padding:28px; border:1px solid var(--line);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .testi-card:hover{ transform:translateY(-5px); box-shadow:0 20px 36px -20px rgba(21,54,49,.25); }
+  .stars{ color:var(--citrus); letter-spacing:2px; margin-bottom:14px; font-size:.95rem; }
+  .testi-card p{ color:var(--ink); font-size:.98rem; margin-bottom:18px; }
+  .who{ display:flex; align-items:center; gap:12px; }
+  .avatar{
+    width:40px; height:40px; border-radius:50%; background:var(--forest);
+    color:var(--cream); display:flex; align-items:center; justify-content:center;
+    font-family:'Rakkas',serif; font-size:1.05rem;
+  }
+  .who b{ display:block; font-size:.92rem; }
+  .who span{ display:block; font-size:.78rem; color:var(--muted); }
+
+  /* ===== order / cta ===== */
+  .order{
+    background: linear-gradient(160deg, var(--forest) 0%, var(--forest-2) 100%);
+    color:var(--cream);
+    border-radius:32px;
+    margin:0 auto 100px;
+    max-width:1180px;
+    padding:64px 28px;
+    display:grid; grid-template-columns:.9fr 1.1fr; gap:48px;
+    align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .order::before{
+    content:''; position:absolute; width:280px; height:280px; border-radius:50%;
+    background:var(--citrus); opacity:.15; filter:blur(60px); top:-100px; left:-60px;
+  }
+  .order h2{ font-size:clamp(1.9rem,3vw,2.5rem); margin-bottom:16px; position:relative; }
+  .order p{ color:rgba(251,246,236,.72); margin-bottom:24px; max-width:420px; position:relative; }
+  form.order-form{ display:grid; grid-template-columns:1fr 1fr; gap:14px; position:relative; }
+  form.order-form .full{ grid-column:1/-1; }
+  .field label{ display:block; font-size:.8rem; color:rgba(251,246,236,.7); margin-bottom:6px; }
+  .field input, .field select, .field textarea{
+    width:100%; padding:13px 15px; border-radius:12px; border:1px solid rgba(251,246,236,.22);
+    background:rgba(251,246,236,.06); color:var(--cream); font-family:'Tajawal',sans-serif; font-size:.95rem;
+  }
+  .field input::placeholder, .field textarea::placeholder{ color:rgba(251,246,236,.4); }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .order-submit{ margin-top:6px; width:100%; justify-content:center; }
+  .form-note{ font-size:.8rem; color:rgba(251,246,236,.55); margin-top:10px; }
+  .success-msg{
+    display:none; background:rgba(232,150,60,.15); border:1px solid var(--citrus);
+    color:var(--cream); padding:14px 16px; border-radius:12px; font-size:.9rem; margin-top:12px;
+  }
+
+  /* ===== footer ===== */
+  footer{ padding:50px 0 34px; border-top:1px solid var(--line); }
+  .foot-grid{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:30px; flex-wrap:wrap;
+  }
+  .foot-col h4{ font-size:.85rem; margin-bottom:14px; color:var(--forest); }
+  .foot-col a, .foot-col p{ display:block; font-size:.88rem; color:var(--muted); margin-bottom:8px; }
+  .foot-bottom{
+    margin-top:40px; padding-top:24px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; font-size:.8rem; color:var(--muted); flex-wrap:wrap; gap:10px;
+  }
+
+  /* ===== EDIT MODE ===== */
+  .edit-fab{
+    position:fixed; bottom:26px; left:26px; z-index:200;
+    background:var(--forest); color:var(--cream);
+    border:none; border-radius:100px; padding:15px 22px;
+    display:flex; align-items:center; gap:10px;
+    font-family:'Tajawal',sans-serif; font-weight:700; font-size:.92rem; cursor:pointer;
+    box-shadow:0 14px 30px -10px rgba(21,54,49,.55);
+    transition:transform .2s ease, background .2s ease;
+  }
+  .edit-fab:hover{ transform:translateY(-3px); }
+  .edit-fab svg{ width:18px; height:18px; }
+
+  .edit-toolbar{
+    position:fixed; bottom:26px; left:26px; z-index:200;
+    background:var(--forest); color:var(--cream);
+    border-radius:20px; padding:16px; width:270px;
+    box-shadow:0 20px 44px -12px rgba(21,54,49,.55);
+    display:none; flex-direction:column; gap:12px;
+    font-family:'Tajawal',sans-serif;
+  }
+  .edit-toolbar.open{ display:flex; }
+  .edit-toolbar-head{ display:flex; align-items:center; justify-content:space-between; }
+  .edit-toolbar-head b{ font-size:.95rem; }
+  .edit-close{ background:none; border:none; color:var(--cream); font-size:1.1rem; cursor:pointer; opacity:.7; }
+  .edit-close:hover{ opacity:1; }
+  .edit-hint{ font-size:.78rem; color:rgba(251,246,236,.65); line-height:1.5; }
+  .swatches{ display:flex; gap:10px; }
+  .swatch{
+    width:32px; height:32px; border-radius:50%; cursor:pointer; border:2px solid rgba(251,246,236,.3);
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .swatch:hover, .swatch.active{ transform:scale(1.1); border-color:var(--cream); }
+  .sw-green{ background:linear-gradient(135deg,#153631,#E8963C); }
+  .sw-ocean{ background:linear-gradient(135deg,#123B4F,#F2A65A); }
+  .sw-berry{ background:linear-gradient(135deg,#3B1F3D,#F2994A); }
+  .edit-toolbar .btn{ font-size:.85rem; padding:11px 16px; justify-content:center; }
+  [contenteditable="true"]{ outline:none; }
+  body.edit-active [data-editable]{
+    cursor:text; border-radius:6px;
+  }
+  body.edit-active [data-editable]:hover{
+    outline:1.5px dashed var(--citrus); outline-offset:3px;
+  }
+  body.edit-active [data-editable]:focus{
+    outline:1.5px solid var(--citrus); outline-offset:3px; background:rgba(232,150,60,.08);
+  }
+  .edit-toast{
+    position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-14px);
+    background:var(--forest); color:var(--cream); padding:12px 22px; border-radius:100px;
+    font-size:.85rem; z-index:300; opacity:0; pointer-events:none; transition:opacity .3s ease, transform .3s ease;
+    box-shadow:0 14px 30px -10px rgba(21,54,49,.5);
+  }
+  .edit-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ===== responsive ===== */
+  @media (max-width: 920px){
+    .nav-links{ display:none; }
+    .hero-grid{ grid-template-columns:1fr; }
+    .bowl-stage{ order:-1; }
+    .why-grid, .menu-grid, .steps, .testi-grid{ grid-template-columns:1fr 1fr; }
+    .gallery-grid{ grid-template-columns:repeat(4,1fr); gap:14px; }
+    .order{ grid-template-columns:1fr; }
+  }
+  @media (max-width: 620px){
+    .why-grid, .menu-grid, .steps, .testi-grid{ grid-template-columns:1fr; }
+    .gallery-grid{ grid-template-columns:repeat(2,1fr); gap:20px; }
+    form.order-form{ grid-template-columns:1fr; }
+    .hero{ padding:64px 0 40px; }
+    .order{ border-radius:22px; padding:40px 20px; }
+    .edit-fab span.fab-label{ display:none; }
+    .edit-toolbar{ width:calc(100vw - 52px); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo" data-editable><span class="dot"></span>خُضرة</div>
+    <nav class="nav-links">
+      <a href="#menu">قائمة الطعام</a>
+      <a href="#why">لماذا خُضرة</a>
+      <a href="#gallery">من مطبخنا</a>
+      <a href="#process">طريقة الطلب</a>
+      <a href="#testimonials">آراء عملائنا</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#order" class="btn btn-outline">اطلب الآن</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" data-editable>مطبخ صحي — عمّان</span>
+      <h1 data-editable>سلطتك اليوم، <em>طازجة</em><br>من المزرعة إلى طبقك</h1>
+      <p class="lead" data-editable>نجهّز سلطات وأطباقًا صحية متوازنة يوميًا من مكوّنات طازجة، بدون إضافات صناعية، وبسعرات حرارية موضّحة على كل طبق — لتأكل بثقة.</p>
+      <div class="hero-ctas">
+        <a href="#menu" class="btn btn-citrus">تصفّح القائمة</a>
+        <a href="#order" class="btn btn-ghost-cream">اطلب توصيلًا</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><b data-editable>+35</b><span data-editable>طبقًا صحيًا أسبوعيًا</span></div>
+        <div class="hstat"><b data-editable>25 د</b><span data-editable>متوسط وقت التوصيل</span></div>
+        <div class="hstat"><b data-editable>%100</b><span data-editable>مكوّنات طازجة يوميًا</span></div>
+      </div>
+    </div>
+
+    <div class="bowl-stage">
+      <svg class="float-accent fa1" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="42" fill="#F2CB6A"/>
+        <path d="M45 14 C60 14 70 26 70 42 C70 60 58 74 45 76 C32 74 20 60 20 42 C20 26 30 14 45 14 Z" fill="#E8963C"/>
+        <circle cx="45" cy="42" r="14" fill="#FBF6EC" opacity=".55"/>
+      </svg>
+      <svg class="float-accent fa2" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="42" fill="#dff0e2"/>
+        <path d="M45 12 C64 12 76 30 74 50 C72 68 58 78 45 78 C32 78 20 66 22 48 C24 30 30 12 45 12 Z" fill="#7FBF8F"/>
+        <circle cx="45" cy="46" r="16" fill="#c8e6c9"/>
+        <circle cx="45" cy="46" r="7" fill="#8a5a2b"/>
+      </svg>
+      <svg class="float-accent fa3" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="42" fill="#f6d9dd"/>
+        <path d="M45 16 L58 40 L45 74 L32 40 Z" fill="#D1495B"/>
+        <path d="M45 16 L50 32 L45 46 L40 32 Z" fill="#e88a97"/>
+      </svg>
+      <svg class="float-accent fa4" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="42" fill="#fde9c8"/>
+        <circle cx="34" cy="40" r="13" fill="#F2CB6A"/>
+        <circle cx="54" cy="46" r="10" fill="#E8963C"/>
+        <circle cx="42" cy="58" r="8" fill="#F2CB6A"/>
+      </svg>
+      <svg class="main-bowl" viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse class="layer l1" cx="200" cy="360" rx="150" ry="26" fill="#0f2925"/>
+        <path class="layer l1" d="M60 240 C60 330 130 385 200 385 C270 385 340 330 340 240 L340 220 L60 220 Z" fill="#20463c"/>
+        <path class="layer l2" d="M64 226 C64 240 120 250 200 250 C280 250 336 240 336 226 C336 212 280 202 200 202 C120 202 64 212 64 226 Z" fill="#E8963C"/>
+        <g class="layer l3">
+          <circle cx="120" cy="212" r="9" fill="#D1495B"/>
+          <circle cx="150" cy="200" r="7" fill="#D1495B"/>
+          <circle cx="255" cy="208" r="8" fill="#D1495B"/>
+          <circle cx="280" cy="198" r="6" fill="#D1495B"/>
+        </g>
+        <g class="layer l4">
+          <path d="M90 200 q14 -26 34 -4" stroke="#7FBF8F" stroke-width="9" stroke-linecap="round"/>
+          <path d="M150 190 q14 -26 34 -4" stroke="#7FBF8F" stroke-width="9" stroke-linecap="round"/>
+          <path d="M210 196 q14 -26 34 -4" stroke="#7FBF8F" stroke-width="9" stroke-linecap="round"/>
+          <path d="M270 190 q14 -26 34 -4" stroke="#7FBF8F" stroke-width="9" stroke-linecap="round"/>
+        </g>
+        <g class="layer l5">
+          <circle cx="140" cy="178" r="10" fill="#F2CB6A"/>
+          <circle cx="200" cy="170" r="12" fill="#F2CB6A"/>
+          <circle cx="260" cy="180" r="9" fill="#F2CB6A"/>
+        </g>
+        <path class="layer l1" d="M40 218 C40 210 90 200 200 200 C310 200 360 210 360 218 C360 226 310 236 200 236 C90 236 40 226 40 218 Z" fill="#28584a" opacity=".55"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-track">
+    <span>كينوا</span><span>أفوكادو</span><span>حمص</span><span>سبانخ</span><span>سلمون مشوي</span><span>زيت زيتون بكر</span><span>فروج مشوي</span><span>لوز محمّص</span>
+    <span>كينوا</span><span>أفوكادو</span><span>حمص</span><span>سبانخ</span><span>سلمون مشوي</span><span>زيت زيتون بكر</span><span>فروج مشوي</span><span>لوز محمّص</span>
+  </div>
+</div>
+
+<section class="why wrap" id="why">
+  <div class="sec-head reveal">
+    <span class="eyebrow" data-editable>لماذا خُضرة</span>
+    <h2 data-editable>الصحة لا تعني التنازل عن الطعم</h2>
+    <p data-editable>كل طبق نجهّزه محسوب بعناية من ناحية التوازن الغذائي، ومصدر مكوّناته موثّق من مزارع محلية في عمّان والأغوار.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal r1">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C7 21 3 17 3 11C3 6 7 3 13 3C17 3 20 5 20 9C20 15 16 19 12 21Z" stroke="#1e4a41" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 17C10 13 13 9 17 6" stroke="#E8963C" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <span class="why-num" data-editable>01 — طازج يوميًا</span>
+      <h3 data-editable>تحضير يومي، لا تخزين</h3>
+      <p data-editable>لا نجهّز الأطباق إلا بعد استلام الطلب، ولا نحتفظ بمكوّنات لأكثر من يوم واحد في المطبخ.</p>
+    </div>
+    <div class="why-card reveal r2">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="#1e4a41" stroke-width="1.6"/><path d="M8 9h8M8 13h8M8 17h5" stroke="#E8963C" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <span class="why-num" data-editable>02 — شفافية غذائية</span>
+      <h3 data-editable>سعرات ومكوّنات واضحة</h3>
+      <p data-editable>كل طبق يعرض السعرات الحرارية والبروتين والمكوّنات كاملة، لتختار بما يناسب هدفك الغذائي.</p>
+    </div>
+    <div class="why-card reveal r3">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M4.5 6.5l15 11M19.5 6.5l-15 11" stroke="#1e4a41" stroke-width="1.6" stroke-linecap="round"/><path d="M12 2l-2 2.4M12 2l2 2.4M12 22l-2-2.4M12 22l2-2.4" stroke="#E8963C" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <span class="why-num" data-editable>03 — توصيل مبرّد</span>
+      <h3 data-editable>يصلك باردًا وطازجًا</h3>
+      <p data-editable>نستخدم حقائب توصيل مبرّدة تحافظ على نضارة الخضار حتى لحظة وصوله لباب بيتك.</p>
+    </div>
+  </div>
+</section>
+
+<section class="gallery wrap" id="gallery">
+  <div class="sec-head reveal">
+    <span class="eyebrow" data-editable>من مطبخنا</span>
+    <h2 data-editable>تشكيلة متنوّعة كل أسبوع</h2>
+    <p data-editable>لمحة عن فئات الأطباق التي نجهّزها بجانب قائمة السلطات اليومية.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal r1">
+      <div class="gallery-frame">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="56" fill="#F2EBDA"/>
+          <path d="M20 66c0 26 18 42 40 42s40-16 40-42H20z" fill="#20463c"/>
+          <ellipse cx="60" cy="66" rx="40" ry="10" fill="#E8963C"/>
+          <circle cx="42" cy="60" r="6" fill="#D1495B"/>
+          <circle cx="60" cy="55" r="7" fill="#F2CB6A"/>
+          <circle cx="78" cy="60" r="6" fill="#7FBF8F"/>
+        </svg>
+      </div>
+      <div class="gallery-cap" data-editable>بولات البروتين</div>
+      <div class="gallery-sub" data-editable>فروج، سلمون، وبيض مسلوق</div>
+    </div>
+    <div class="gallery-item reveal r2">
+      <div class="gallery-frame">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="56" fill="#F2EBDA"/>
+          <path d="M20 66c0 26 18 42 40 42s40-16 40-42H20z" fill="#28584a"/>
+          <ellipse cx="60" cy="66" rx="40" ry="10" fill="#7FBF8F"/>
+          <circle cx="46" cy="58" r="5" fill="#F2CB6A"/>
+          <circle cx="60" cy="52" r="6" fill="#D1495B"/>
+          <circle cx="74" cy="58" r="5" fill="#F2CB6A"/>
+        </svg>
+      </div>
+      <div class="gallery-cap" data-editable>بولات الديتوكس</div>
+      <div class="gallery-sub" data-editable>خضار ورقية وأعشاب طازجة</div>
+    </div>
+    <div class="gallery-item reveal r3">
+      <div class="gallery-frame">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="56" fill="#F2EBDA"/>
+          <path d="M20 66c0 26 18 42 40 42s40-16 40-42H20z" fill="#1e4a41"/>
+          <ellipse cx="60" cy="66" rx="40" ry="10" fill="#F2CB6A"/>
+          <circle cx="48" cy="58" r="7" fill="#E8963C"/>
+          <circle cx="66" cy="54" r="5" fill="#D1495B"/>
+          <circle cx="76" cy="62" r="6" fill="#7FBF8F"/>
+        </svg>
+      </div>
+      <div class="gallery-cap" data-editable>إفطار صحي</div>
+      <div class="gallery-sub" data-editable>شوفان وفواكه وزبادي يوناني</div>
+    </div>
+    <div class="gallery-item reveal r4">
+      <div class="gallery-frame">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="56" fill="#F2EBDA"/>
+          <path d="M20 66c0 26 18 42 40 42s40-16 40-42H20z" fill="#20463c"/>
+          <ellipse cx="60" cy="66" rx="40" ry="10" fill="#D1495B"/>
+          <circle cx="44" cy="58" r="6" fill="#F2CB6A"/>
+          <circle cx="60" cy="52" r="7" fill="#E8963C"/>
+          <circle cx="76" cy="58" r="6" fill="#F2CB6A"/>
+        </svg>
+      </div>
+      <div class="gallery-cap" data-editable>حلويات صحية</div>
+      <div class="gallery-sub" data-editable>فواكه موسمية وتمر وعسل طبيعي</div>
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow" data-editable>قائمة اليوم</span>
+      <h2 data-editable>سلطات وأطباق مختارة</h2>
+      <p data-editable>قائمة متجددة أسبوعيًا حسب موسم الخضار، وكل طبق يكفي وجبة كاملة متوازنة.</p>
+    </div>
+    <div class="menu-grid">
+
+      <div class="dish reveal r1">
+        <div class="dish-top">
+          <div class="dish-icon-wrap">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="26" fill="#28584a"/>
+              <ellipse cx="28" cy="30" rx="18" ry="7" fill="#7FBF8F"/>
+              <circle cx="20" cy="26" r="4.5" fill="#4a7a3f"/>
+              <circle cx="30" cy="24" r="3.5" fill="#D1495B"/>
+              <circle cx="37" cy="28" r="3" fill="#F2CB6A"/>
+            </svg>
+          </div>
+          <div class="dish-head"><h3 data-editable>سلطة الكينوا والأفوكادو</h3><span class="price" data-editable>4.50 د.أ</span></div>
+        </div>
+        <p data-editable>كينوا مطبوخة، أفوكادو طازج، طماطم كرزية، فجل، وصلصة ليمون وزيت زيتون.</p>
+        <span class="kcal" data-editable>320 سعرة حرارية</span>
+        <div class="tags"><span class="tag" data-editable>نباتي</span><span class="tag" data-editable>خالٍ من الغلوتين</span></div>
+      </div>
+
+      <div class="dish reveal r2">
+        <div class="dish-top">
+          <div class="dish-icon-wrap">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="26" fill="#28584a"/>
+              <ellipse cx="28" cy="30" rx="18" ry="7" fill="#E8963C"/>
+              <ellipse cx="22" cy="25" rx="6" ry="4" fill="#a8672b"/>
+              <circle cx="34" cy="26" r="3.5" fill="#F2CB6A"/>
+              <circle cx="38" cy="30" r="3" fill="#F2CB6A"/>
+            </svg>
+          </div>
+          <div class="dish-head"><h3 data-editable>سلطة الفروج المشوي والحمص</h3><span class="price" data-editable>5.25 د.أ</span></div>
+        </div>
+        <p data-editable>صدر فروج مشوي، حمص مسلوق، خس روماني، مخلل خيار، وصلصة الطحينة.</p>
+        <span class="kcal" data-editable>410 سعرة حرارية</span>
+        <div class="tags"><span class="tag" data-editable>غني بالبروتين</span></div>
+      </div>
+
+      <div class="dish reveal r3">
+        <div class="dish-top">
+          <div class="dish-icon-wrap">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="26" fill="#28584a"/>
+              <ellipse cx="28" cy="30" rx="18" ry="7" fill="#4a7a3f"/>
+              <circle cx="21" cy="25" r="4" fill="#345c2c"/>
+              <circle cx="29" cy="23" r="4.5" fill="#345c2c"/>
+              <ellipse cx="37" cy="28" rx="3.5" ry="2.5" fill="#a8672b"/>
+              <circle cx="34" cy="33" r="2.4" fill="#D1495B"/>
+            </svg>
+          </div>
+          <div class="dish-head"><h3 data-editable>سلطة البروكلي والمكسرات</h3><span class="price" data-editable>4.00 د.أ</span></div>
+        </div>
+        <p data-editable>بروكلي مقرمش، لوز محمّص، جبنة فيتا، توت بري مجفف، صلصة خردل وعسل.</p>
+        <span class="kcal" data-editable>290 سعرة حرارية</span>
+        <div class="tags"><span class="tag" data-editable>نباتي</span></div>
+      </div>
+
+      <div class="dish reveal r4">
+        <div class="dish-top">
+          <div class="dish-icon-wrap">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="26" fill="#28584a"/>
+              <ellipse cx="28" cy="30" rx="18" ry="7" fill="#F2EBDA"/>
+              <ellipse cx="21" cy="26" rx="6" ry="4" fill="#d98d9a"/>
+              <circle cx="33" cy="25" r="3" fill="#F2EBDA"/>
+              <circle cx="38" cy="30" r="2.6" fill="#4a7a3f"/>
+            </svg>
+          </div>
+          <div class="dish-head"><h3 data-editable>سلطة التونة والفاصولياء البيضاء</h3><span class="price" data-editable>4.75 د.أ</span></div>
+        </div>
+        <p data-editable>تونة مصفّاة، فاصولياء بيضاء، بصل أحمر، بقدونس، وزيت زيتون بليمون.</p>
+        <span class="kcal" data-editable>350 سعرة حرارية</span>
+        <div class="tags"><span class="tag" data-editable>غني بالبروتين</span></div>
+      </div>
+
+      <div class="dish reveal r5">
+        <div class="dish-top">
+          <div class="dish-icon-wrap">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="26" fill="#28584a"/>
+              <ellipse cx="28" cy="30" rx="18" ry="7" fill="#e08b93"/>
+              <circle cx="21" cy="25" r="4.2" fill="#345c2c"/>
+              <circle cx="30" cy="24" r="3.6" fill="#345c2c"/>
+              <circle cx="37" cy="29" r="2.8" fill="#7a2f5e"/>
+            </svg>
+          </div>
+          <div class="dish-head"><h3 data-editable>سلطة السلمون والسبانخ</h3><span class="price" data-editable>6.00 د.أ</span></div>
+        </div>
+        <p data-editable>سلمون مشوي، سبانخ طازجة، حبوب رمان، جوز، وصلصة البلسمك.</p>
+        <span class="kcal" data-editable>430 سعرة حرارية</span>
+        <div class="tags"><span class="tag" data-editable>أوميغا 3</span></div>
+      </div>
+
+      <div class="dish reveal r6">
+        <div class="dish-top">
+          <div class="dish-icon-wrap">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="26" fill="#28584a"/>
+              <ellipse cx="28" cy="30" rx="18" ry="7" fill="#F2CB6A"/>
+              <circle cx="21" cy="25" r="4" fill="#E8963C"/>
+              <circle cx="29" cy="23" r="3.6" fill="#D1495B"/>
+              <circle cx="37" cy="28" r="3.4" fill="#7a2f5e"/>
+            </svg>
+          </div>
+          <div class="dish-head"><h3 data-editable>سلطة الفواكه الموسمية</h3><span class="price" data-editable>3.50 د.أ</span></div>
+        </div>
+        <p data-editable>تشكيلة فواكه طازجة حسب الموسم، مع نعناع وقليل من عسل السدر.</p>
+        <span class="kcal" data-editable>180 سعرة حرارية</span>
+        <div class="tags"><span class="tag" data-editable>نباتي</span><span class="tag" data-editable>حلوى صحية</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="process wrap" id="process">
+  <div class="sec-head reveal">
+    <span class="eyebrow" data-editable>طريقة الطلب</span>
+    <h2 data-editable>ثلاث خطوات بسيطة</h2>
+  </div>
+  <div class="steps">
+    <div class="step reveal r1">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="#1e4a41" stroke-width="1.6"/><path d="M15.5 15.5L21 21" stroke="#E8963C" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <span class="step-index" data-editable>01</span>
+      <h3 data-editable>اختر طبقك</h3>
+      <p data-editable>تصفّح القائمة اليومية واختر السلطة أو الطبق الذي يناسب هدفك الغذائي.</p>
+    </div>
+    <div class="step reveal r2">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12l18-8-8 18-2.5-7.5L3 12Z" stroke="#1e4a41" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="step-index" data-editable>02</span>
+      <h3 data-editable>أرسل الطلب</h3>
+      <p data-editable>عبّئ نموذج الطلب أو راسلنا مباشرة على واتساب مع عنوان التوصيل.</p>
+    </div>
+    <div class="step reveal r3">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 8l8-4 8 4v9l-8 4-8-4V8Z" stroke="#1e4a41" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 8l8 4 8-4M12 12v9" stroke="#E8963C" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="step-index" data-editable>03</span>
+      <h3 data-editable>استلم طازجًا</h3>
+      <p data-editable>يصلك الطلب خلال 25 دقيقة تقريبًا داخل عمّان، في تغليف صديق للبيئة.</p>
+    </div>
+  </div>
+</section>
+
+<section class="testi wrap" id="testimonials">
+  <div class="sec-head reveal">
+    <span class="eyebrow" data-editable>آراء عملائنا</span>
+    <h2 data-editable>ثقة يوميّة من عملائنا</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal r1">
+      <div class="stars">★★★★★</div>
+      <p data-editable>صرت أطلب من خُضرة كل يوم تقريبًا، الطعم ممتاز والسعرات موضّحة فعليًا بتساعدني ألتزم بنظامي الغذائي.</p>
+      <div class="who"><div class="avatar">س</div><div><b data-editable>سارة العبدالله</b><span data-editable>عمّان — عميلة منذ 6 أشهر</span></div></div>
+    </div>
+    <div class="testi-card reveal r2">
+      <div class="stars">★★★★★</div>
+      <p data-editable>التوصيل دايمًا بالوقت والسلطة توصل باردة وطازجة. سلطة السلمون صارت طبقي المفضل بعد الجيم.</p>
+      <div class="who"><div class="avatar">ع</div><div><b data-editable>عمر النجار</b><span data-editable>الرابية — عميل منتظم</span></div></div>
+    </div>
+    <div class="testi-card reveal r3">
+      <div class="stars">★★★★★</div>
+      <p data-editable>أحسن شي إني أعرف بالضبط شو داخل بالطبق. مكوّنات واضحة وجودة ثابتة كل مرة.</p>
+      <div class="who"><div class="avatar">ل</div><div><b data-editable>لمى حداد</b><span data-editable>خلدا — عميلة منذ سنة</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="order wrap reveal" style="max-width:1180px; margin:0 auto;">
+    <div>
+      <span class="eyebrow" style="color:var(--citrus);" data-editable>اطلب الآن</span>
+      <h2 data-editable>جاهز لطبقك الصحي اليوم؟</h2>
+      <p data-editable>عبّئ بياناتك وسنتواصل معك خلال دقائق لتأكيد الطلب وموعد التوصيل. التوصيل متاح داخل عمّان.</p>
+      <a href="https://wa.me/962000000000" target="_blank" rel="noopener" class="btn btn-citrus">راسلنا على واتساب</a>
+    </div>
+    <form class="order-form" id="orderForm">
+      <div class="field"><label for="name">الاسم الكامل</label><input id="name" type="text" placeholder="مثال: أحمد الخطيب" required></div>
+      <div class="field"><label for="phone">رقم الهاتف</label><input id="phone" type="tel" placeholder="07xxxxxxxx" required></div>
+      <div class="field full"><label for="address">عنوان التوصيل</label><input id="address" type="text" placeholder="المنطقة، الشارع، أقرب معلم" required></div>
+      <div class="field full"><label for="dish">اختر طبقك</label>
+        <select id="dish">
+          <option>سلطة الكينوا والأفوكادو</option>
+          <option>سلطة الفروج المشوي والحمص</option>
+          <option>سلطة البروكلي والمكسرات</option>
+          <option>سلطة التونة والفاصولياء البيضاء</option>
+          <option>سلطة السلمون والسبانخ</option>
+          <option>سلطة الفواكه الموسمية</option>
+        </select>
+      </div>
+      <div class="field full"><label for="notes">ملاحظات إضافية (اختياري)</label><textarea id="notes" placeholder="مثال: بدون مكسرات، صلصة جانبية..."></textarea></div>
+      <div class="full">
+        <button type="submit" class="btn btn-citrus order-submit">تأكيد الطلب</button>
+        <p class="form-note">سنتواصل معك هاتفيًا خلال 10 دقائق لتأكيد التفاصيل.</p>
+        <div class="success-msg" id="successMsg">✓ تم استلام طلبك بنجاح! سنتواصل معك قريبًا على الرقم الذي أدخلته.</div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="logo" style="font-size:1.3rem; margin-bottom:10px;" data-editable><span class="dot"></span>خُضرة</div>
+        <p style="max-width:220px;" data-editable>سلطات وأطعمة صحية طازجة، تُحضّر يوميًا وتصلك أينما كنت في عمّان.</p>
+      </div>
+      <div class="foot-col">
+        <h4>روابط سريعة</h4>
+        <a href="#menu">قائمة الطعام</a>
+        <a href="#why">لماذا خُضرة</a>
+        <a href="#process">طريقة الطلب</a>
+      </div>
+      <div class="foot-col">
+        <h4>تواصل معنا</h4>
+        <a href="https://wa.me/962000000000" target="_blank" rel="noopener" data-editable>واتساب: 07xx xxx xxx</a>
+        <a href="mailto:hello@khudra.jo" data-editable>hello@khudra.jo</a>
+        <p data-editable>عمّان، الأردن</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-editable>© 2026 خُضرة. جميع الحقوق محفوظة.</span>
+      <span data-editable>مصنوع بحب داخل مطبخ عمّان 🌿</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Edit mode controls -->
+<button class="edit-fab" id="editFab" type="button">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 20h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+  <span class="fab-label">تعديل الموقع</span>
+</button>
+
+<div class="edit-toolbar" id="editToolbar">
+  <div class="edit-toolbar-head">
+    <b>وضع التعديل مفعّل</b>
+    <button class="edit-close" id="editClose" type="button">✕</button>
+  </div>
+  <p class="edit-hint">اضغط على أي نص في الموقع لتعديله مباشرة. اختر لونًا مختلفًا إذا حبيت، ثم نزّل نسختك المعدّلة كملف HTML.</p>
+  <div class="swatches">
+    <button class="swatch sw-green active" data-theme="green" title="أخضر"></button>
+    <button class="swatch sw-ocean" data-theme="ocean" title="أزرق محيطي"></button>
+    <button class="swatch sw-berry" data-theme="berry" title="بنفسجي توتي"></button>
+  </div>
+  <button class="btn btn-citrus" id="downloadBtn" type="button">⬇ تنزيل نسختي المعدّلة</button>
+</div>
+
+<div class="edit-toast" id="editToast">تم تفعيل وضع التعديل — اضغط على أي نص لتغييره</div>
+
+<script>
+  document.getElementById('orderForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const msg = document.getElementById('successMsg');
+    msg.style.display = 'block';
+    this.reset();
+    setTimeout(()=>{ msg.style.display='none'; }, 6000);
+  });
+
+  /* scroll reveal */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold:.15 });
+  revealEls.forEach(el=>io.observe(el));
+
+  /* THEME PRESETS */
+  const themes = {
+    green:  { forest:'#153631', forest2:'#1e4a41', forest3:'#2a5f52', citrus:'#E8963C', radish:'#D1495B' },
+    ocean:  { forest:'#123B4F', forest2:'#1B5670', forest3:'#227089', citrus:'#F2A65A', radish:'#E4572E' },
+    berry:  { forest:'#3B1F3D', forest2:'#5A2D5E', forest3:'#7A3E7E', citrus:'#F2994A', radish:'#D14D72' }
+  };
+  function applyTheme(name){
+    const t = themes[name]; if(!t) return;
+    const root = document.documentElement.style;
+    root.setProperty('--forest', t.forest);
+    root.setProperty('--forest-2', t.forest2);
+    root.setProperty('--forest-3', t.forest3);
+    root.setProperty('--citrus', t.citrus);
+    root.setProperty('--radish', t.radish);
+    document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('active', s.dataset.theme===name));
+  }
+  document.querySelectorAll('.swatch').forEach(sw=>{
+    sw.addEventListener('click', ()=>applyTheme(sw.dataset.theme));
+  });
+
+  /* EDIT MODE */
+  const fab = document.getElementById('editFab');
+  const toolbar = document.getElementById('editToolbar');
+  const closeBtn = document.getElementById('editClose');
+  const toast = document.getElementById('editToast');
+  const editable = document.querySelectorAll('[data-editable]');
+
+  function showToast(text){
+    toast.textContent = text;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'), 2600);
+  }
+
+  function enterEditMode(){
+    document.body.classList.add('edit-active');
+    editable.forEach(el=>el.setAttribute('contenteditable','true'));
+    fab.style.display = 'none';
+    toolbar.classList.add('open');
+    showToast('تم تفعيل وضع التعديل — اضغط على أي نص لتغييره');
+  }
+  function exitEditMode(){
+    document.body.classList.remove('edit-active');
+    editable.forEach(el=>el.removeAttribute('contenteditable'));
+    fab.style.display = 'flex';
+    toolbar.classList.remove('open');
+  }
+  fab.addEventListener('click', enterEditMode);
+  closeBtn.addEventListener('click', exitEditMode);
+
+  /* DOWNLOAD EDITED VERSION */
+  document.getElementById('downloadBtn').addEventListener('click', ()=>{
+    const clone = document.documentElement.cloneNode(true);
+    clone.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
+    clone.querySelector('#editFab')?.remove();
+    clone.querySelector('#editToolbar')?.remove();
+    clone.querySelector('#editToast')?.remove();
+    clone.classList.remove('edit-active');
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([html], { type:'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'khudra-website-edited.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    showToast('تم تنزيل نسختك المعدّلة ✓');
+  });
+</script>
+
+</body>
+</html>
